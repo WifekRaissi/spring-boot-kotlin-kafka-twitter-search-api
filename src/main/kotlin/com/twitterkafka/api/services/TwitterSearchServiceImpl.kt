@@ -25,7 +25,7 @@ open class TwitterSearchServiceImpl:TwitterSearchService {
 /*
         val params = mapOf("grant_type" to "client_credentials")
         val headers = mapOf("Authorization" to
-        "Basic ")
+        "")
         val auth = post("https://api.twitter.com/oauth2/token", headers = headers, params = params)
 
          print(auth.jsonObject)
@@ -37,7 +37,7 @@ open class TwitterSearchServiceImpl:TwitterSearchService {
 override fun searchTweet(term:String){
 
 
-    val token = mapOf("Authorization" to "Bearer ")
+    val token = mapOf("Authorization" to "Bearer  ")
     val queryParams = mapOf("q" to term, "count" to "100")
     val r = get("https://api.twitter.com/1.1/search/tweets.json", params = queryParams, headers = token)
    logger.info("Tweet received: " + r.text)

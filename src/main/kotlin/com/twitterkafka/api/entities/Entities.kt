@@ -1,6 +1,8 @@
 package com.twitterkafka.api.entities
 
-import org.apache.tomcat.jni.Time
+
+
+import java.util.*
 
 data class Metadata(
         val result_type:String?,
@@ -88,7 +90,8 @@ data class Additional_media_info(
         val monetizable:Boolean?,
         val source_user: User?,
         val source_user_id:Long?,
-        val source_user_id_str:String?
+        val source_user_id_str:String?,
+        val call_to_actions:Any
 )
 data class Entities(
         val hashtags:MutableList<Hashtag>?,
@@ -115,10 +118,10 @@ data class User(
         val description:String?,
         val created_at:String?,
         val is_translator:Boolean,
-        val  profile_background_image_url_https:String?,
+        val profile_background_image_url_https:String?,
         val protected:Boolean,
-        val   screen_name:String?,
-        val  id_str:String?,
+        val screen_name:String?,
+        val id_str:String?,
         val profile_link_color:String?,
         val is_translation_enabled:Boolean,
         val translator_type:String?,
@@ -149,32 +152,37 @@ data class User(
         val profile_use_background_image:Boolean
 )
 data class Coordinates(
-        val coordinates:Any?,
-        val type: String?
+
+        val coordinates:Any,
+        val type: String//The type of data encoded in the coordinates property.
+        //This will be “Polygon” for bounding boxes and “Pointn” for Tweets with exact coordinates.
 )
 
 
 data class Bounding_box(
-        val coordinates:MutableList<Coordinates>?,
-        val type:String?
+        val coordinates: ArrayList<Coordinates>?,
+        val type:String? //The type of data encoded in the coordinates property.
+        //This will be “Polygon” for bounding boxes and “Pointn” for Tweets with exact coordinates.
 )
 data class Place(
         val attributes:Any,
-        val bounding_box: Coordinates?,
+        val bounding_box: Coordinates?, //A bounding box of coordinates which encloses this place
         val country:String?,
-        val country_code:String?,
-        val full_name:String?,
+        val country_code:String?, //exmp:US
+        val full_name:String?,//Full human-readable representation of the place’s name
         val id:String?,
-        val name:String?,
-        val place_type:String?,
-        val url:String?,
+        val name:String,// Short human-readable representation of the place’s name.
+        val place_type:String?, //The type of location represented by this place. Example:city
+        val url:String?, //URL representing the location of additional place metadata for this place.
         val contained_within:Any?
 )
 
 data class Statuses(
         val metadata: Metadata?,
         val in_reply_to_status_id_str:String?,
+
         val in_reply_to_status_id:String?,
+
         val created_at:String?,
         val in_reply_to_user_id_str:String?,
         val source:String?,
@@ -183,14 +191,16 @@ data class Statuses(
         val geo: Coordinates?,
         val in_reply_to_screen_name:String?,
         val  is_quote_status:Boolean,
-        val quoted_status_id:Long?, //used when the Tweet is a quote Tweet. This field contains the integer value Tweet ID of the quoted Tweet. Example:
-        val quoted_status_id_str:String?,/* This field only surfaces when the Tweet is a quote Tweet. This is the string representation Tweet ID of the quoted Tweet*/
+        val quoted_status_id:Long?, //used when the Result is a quote Result. This field contains the integer value Result ID of the quoted Result. Example:
+        val quoted_status_id_str:String?,/* This field only surfaces when the Result is a quote Result. This is the string representation Result ID of the quoted Result*/
         val id_str:String?,
         val in_reply_to_user_id:Long?,
         val favorite_count:Int?,
         val id:Long, //Int64
         val text:String?,
+
         val place: Place?,
+
         val lang:String?,
         val favorited:Boolean,
         val possibly_sensitive:Boolean,
@@ -200,18 +210,20 @@ data class Statuses(
         val extended_entities: Extended_Entities?,
         val contributors:String?,
         val user: User?,
-        val retweeted_status: Tweet?,
-        val quoted_status: Tweet?
+        val retweeted_status: Statuses?,
+        val quoted_status: Statuses?
 )
+
 data class   Search_metadata(
         val max_id_str:String?,
         val since_id_str:String?,
         val query:String?,
         val count:Int?,
-        val max_id:Int?,
+        val max_id:Long?,
         val since_id:Int?,
-        val completed_in:Time?,
-        val refresh_url:String?
+        val completed_in:String?,
+        val refresh_url:String?,
+        val next_results:Any
 
 
 )
