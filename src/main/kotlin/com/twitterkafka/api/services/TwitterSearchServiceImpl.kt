@@ -25,7 +25,7 @@ open class TwitterSearchServiceImpl:TwitterSearchService {
 /*
         val params = mapOf("grant_type" to "client_credentials")
         val headers = mapOf("Authorization" to
-        "")
+        "Basic b3J5c3FvNDRlNnNKZUlBZWlDME5NR0dRSDpzSGZENVlVUHBPS2NsZ0dBbnFPT0lHV0pYWVhDWnc1R3BZM09VVThwYng5WEE4OWNKeA==")
         val auth = post("https://api.twitter.com/oauth2/token", headers = headers, params = params)
 
          print(auth.jsonObject)
@@ -34,23 +34,24 @@ open class TwitterSearchServiceImpl:TwitterSearchService {
 
 
 */
+
 override fun searchTweet(term:String){
 
 
     val token = mapOf("Authorization" to "Bearer  ")
     val queryParams = mapOf("q" to term, "count" to "100")
-    val r = get("https://api.twitter.com/1.1/search/tweets.json", params = queryParams, headers = token)
-   logger.info("Tweet received: " + r.text)
+    val response = get("https://api.twitter.com/1.1/search/tweets.json", params = queryParams, headers = token)
 
 
     val map = hashMapOf(org.springframework.messaging.MessageHeaders.CONTENT_TYPE to "application/octet-stream") as Map< String, Any>
 
-    val datatByte=JSON.writeValueAsBytes(r.text)
+    val datatByte=JSON.writeValueAsBytes(response.text)
 
     val msg = createMessage(datatByte, MessageHeaders(map))
 
     output.output().send(msg)
-    logger.info("Tweet received: " +  msg)
+
+    logger.info("Tweet written in kafka: " +  msg)
 
 
 
